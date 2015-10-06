@@ -4,7 +4,11 @@ body {
 }
 
 #canvasHolder {
-    width: 80%;
+    width: 1000px;
+    
+    top:0;
+    bottom: 0;
+    
     margin: auto;
 }
 
