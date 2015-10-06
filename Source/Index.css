@@ -1,0 +1,17 @@
+
+body {
+    background-color: #E6E6FA;
+}
+
+#canvasHolder {
+    width: 80%;
+    margin: auto;
+}
+
+#coordinateSystem {
+    background-color: white;
+    width: 1000px;
+    height: 600px;
+    
+}
+
