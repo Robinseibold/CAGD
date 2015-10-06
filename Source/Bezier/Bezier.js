@@ -30,3 +30,7 @@ function calculateBezierCurveValueWithDeCasteljau(t) {
     
     return b[0];
 }
+
+function clearControlPoints() {
+    controlPoints = [];
+}
