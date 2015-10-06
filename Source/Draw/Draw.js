@@ -13,7 +13,7 @@ function mouseClicked(event) {
         y : event.clientY - boundingRect.top
     };
     
-    document.getElementById("posText").innerHTML = "x: " + point.x + " y: " + point.y;
+    document.getElementById("posText").innerHTML = "Control point added at (" + point.x + ", " + point.y + ")";
     drawPoint(point);
 }
 
