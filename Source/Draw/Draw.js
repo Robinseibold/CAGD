@@ -45,4 +45,5 @@ function clearCanvas() {
     var canvasContext = canvas.getContext("2d");
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
     clearControlPoints();
+    document.getElementById("posText").innerHTML = "Click on canvas to add control points";
 }
