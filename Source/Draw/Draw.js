@@ -33,10 +33,10 @@ function drawBezierCurve() {
     var startPosition = firstControlPoint();
     canvasContext.moveTo(startPosition.x, startPosition.y);
     
-    for(t = 0; t < 1; t += 0.01) {
-        var newPosition = calculateBezierCurveValueWithDeCasteljau(t);
+    var tResolution = 1000;
+    for(t = 0; t <= tResolution; t++) {
+        var newPosition = calculateBezierCurveValueWithDeCasteljau(t / tResolution);
         canvasContext.lineTo(newPosition.x, newPosition.y);
     }
-    
     canvasContext.stroke();
 }
