@@ -25,5 +25,18 @@ function drawPoint(point) {
     canvasContext.beginPath();
     canvasContext.arc(point.x, point.y, 3, 0, (2 * Math.PI));
     canvasContext.stroke();
+}
 
+function drawBezierCurve() {
+    var canvasContext = canvas.getContext("2d");
+    
+    var startPosition = firstControlPoint();
+    canvasContext.moveTo(startPosition.x, startPosition.y);
+    
+    for(t = 0; t < 1; t += 0.01) {
+        var newPosition = calculateBezierCurveValueWithDeCasteljau(t);
+        canvasContext.lineTo(newPosition.x, newPosition.y);
+    }
+    
+    canvasContext.stroke();
 }
