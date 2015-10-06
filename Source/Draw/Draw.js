@@ -27,3 +27,9 @@ function drawPoint(point) {
     canvasContext.stroke();
 
 }
+
+function clearCanvas() {
+    var canvasContext = canvas.getContext("2d");
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    clearControlPoints();
+}
