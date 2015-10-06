@@ -12,6 +12,7 @@ function mouseClicked(event) {
         x : event.clientX - boundingRect.left,
         y : event.clientY - boundingRect.top
     };
+    
     document.getElementById("posText").innerHTML = "x: " + point.x + " y: " + point.y;
     drawPoint(point);
 }
@@ -19,11 +20,10 @@ function mouseClicked(event) {
 function drawPoint(point) {
     addControlPoint(point);
     
-    var canvas = document.getElementById("coordinateSystem");
     var canvasContext = canvas.getContext("2d");
-    
+
     canvasContext.beginPath();
-    canvasContext.arc(point.x, point.y, 10, 0, (2 * Math.PI));
+    canvasContext.arc(point.x, point.y, 3, 0, (2 * Math.PI));
     canvasContext.stroke();
 
 }
