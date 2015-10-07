@@ -1,10 +1,8 @@
 
 var canvas;
-var canvasContext;
 
 function init() {
     canvas = document.getElementById("coordinateSystem");
-    canvasContext = canvas.getContext("2d");
     canvas.addEventListener("click", mouseClicked);
 }
 
@@ -16,18 +14,25 @@ function mouseClicked(event) {
     };
     
     document.getElementById("posText").innerHTML = "Control point added at (" + point.x + ", " + point.y + ")";
+    addAndDrawControlPoint(point);
+}
+
+function addAndDrawControlPoint(point) {
+    addControlPoint(point);
     drawPoint(point);
 }
 
 function drawPoint(point) {
-    addControlPoint(point);
-
+    var canvasContext = canvas.getContext("2d");
     canvasContext.beginPath();
     canvasContext.arc(point.x, point.y, 3, 0, (2 * Math.PI));
     canvasContext.stroke();
+    canvasContext.closePath();
 }
 
 function drawBezierCurve() {
+    var canvasContext = canvas.getContext("2d");
+    canvasContext.beginPath();
     var startPosition = firstControlPoint();
     canvasContext.moveTo(startPosition.x, startPosition.y);
     
@@ -37,6 +42,7 @@ function drawBezierCurve() {
         canvasContext.lineTo(newPosition.x, newPosition.y);
     }
     canvasContext.stroke();
+    canvasContext.closePath();
 }
 
 function drawControlPolygon() {
@@ -50,6 +56,9 @@ function drawControlPolygon() {
 }
 
 function drawDashedLine(startPoint, endPoint) {
+    var canvasContext = canvas.getContext("2d");
+    canvasContext.beginPath();
+    
     var xDiff = endPoint.x - startPoint.x;
     var yDiff = endPoint.y - startPoint.y;
     var distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
@@ -67,11 +76,30 @@ function drawDashedLine(startPoint, endPoint) {
     
     canvasContext.strokeStyle = "#CCCCCC";
     canvasContext.stroke();
+    canvasContext.closePath();
     canvasContext.strokeStyle = "#000000";
 }
 
-function clearCanvas() {
-    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+function drawDegreeElevatedBezierCurve() {
+    bezierCurveDegreeElevation()
+    clearCanvas();
+    
+    var canvasContext = canvas.getContext("2d");
+    canvasContext.beginPath();
+    for (i = 0; i < controlPoints.length; i++) {
+        drawPoint(controlPoints[i]);
+    }
+    canvasContext.closePath();
+    drawBezierCurve();
+}
+
+function clearBezierCurve() {
+    clearCanvas();
     clearControlPoints();
+}
+
+function clearCanvas() {
+    var canvasContext = canvas.getContext("2d");
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
     document.getElementById("posText").innerHTML = "Click on canvas to add control points";
 }
