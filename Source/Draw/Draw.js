@@ -14,12 +14,15 @@ function mouseClicked(event) {
     };
     
     document.getElementById("posText").innerHTML = "Control point added at (" + point.x + ", " + point.y + ")";
+    addAndDrawControlPoint(point);
+}
+
+function addAndDrawControlPoint(point) {
+    addControlPoint(point);
     drawPoint(point);
 }
 
 function drawPoint(point) {
-    addControlPoint(point);
-    
     var canvasContext = canvas.getContext("2d");
 
     canvasContext.beginPath();
@@ -41,8 +44,24 @@ function drawBezierCurve() {
     canvasContext.stroke();
 }
 
+function drawDegreeElevatedBezierCurve() {
+    bezierCurveDegreeElevation()
+    clearCanvas();
+    
+    var canvasContext = canvas.getContext("2d");
+    for (i = 0; i < controlPoints.length; i++) {
+        drawPoint(controlPoints[i]);
+    }
+    
+    drawBezierCurve();
+}
+
+function clearBezierCurve() {
+    clearCanvas();
+    clearControlPoints();
+}
+
 function clearCanvas() {
     var canvasContext = canvas.getContext("2d");
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-    clearControlPoints();
 }
