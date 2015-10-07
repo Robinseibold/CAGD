@@ -9,6 +9,20 @@ function firstControlPoint() {
     return controlPoints[0];
 }
 
+function getControlPolygonPointPairs() {
+    var controlPolygonPointPairs = [];
+    
+    if(controlPoints.length > 1) {
+        for(i = 1; i < controlPoints.length; i++) {
+            var pair = {first: controlPoints[i - 1],
+                        second: controlPoints[i]};
+            controlPolygonPointPairs.push(pair);
+        }
+    }
+    
+    return controlPolygonPointPairs;
+}
+
 function calculateBezierCurveValueWithDeCasteljau(t) {
     var degree = controlPoints.length - 1;
     

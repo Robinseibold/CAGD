@@ -1,8 +1,10 @@
 
 var canvas;
+var canvasContext;
 
 function init() {
     canvas = document.getElementById("coordinateSystem");
+    canvasContext = canvas.getContext("2d");
     canvas.addEventListener("click", mouseClicked);
 }
 
@@ -19,8 +21,6 @@ function mouseClicked(event) {
 
 function drawPoint(point) {
     addControlPoint(point);
-    
-    var canvasContext = canvas.getContext("2d");
 
     canvasContext.beginPath();
     canvasContext.arc(point.x, point.y, 3, 0, (2 * Math.PI));
@@ -28,8 +28,6 @@ function drawPoint(point) {
 }
 
 function drawBezierCurve() {
-    var canvasContext = canvas.getContext("2d");
-    
     var startPosition = firstControlPoint();
     canvasContext.moveTo(startPosition.x, startPosition.y);
     
@@ -41,8 +39,38 @@ function drawBezierCurve() {
     canvasContext.stroke();
 }
 
+function drawControlPolygon() {
+    var controlPolygonPointPairs = getControlPolygonPointPairs();
+    
+    for (pairNumber = 0; pairNumber < controlPolygonPointPairs.length; pairNumber++) {
+        var startPoint = controlPolygonPointPairs[pairNumber].first;
+        var endPoint = controlPolygonPointPairs[pairNumber].second;
+        drawDashedLine(startPoint, endPoint);
+    }
+}
+
+function drawDashedLine(startPoint, endPoint) {
+    var xDiff = endPoint.x - startPoint.x;
+    var yDiff = endPoint.y - startPoint.y;
+    var distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+    var dashLength = 3;
+    var numberOfDashes = Math.floor(distance / dashLength);
+    var deltaX = xDiff / numberOfDashes;
+    var deltaY = yDiff / numberOfDashes;
+    for (i = 0; i < numberOfDashes; i++) {
+        if(i % 2 == 0){
+            canvasContext.moveTo(startPoint.x + i * deltaX, startPoint.y + i * deltaY);
+        }else {
+            canvasContext.lineTo(startPoint.x + i * deltaX, startPoint.y + i * deltaY);
+        }
+    }
+    
+    canvasContext.strokeStyle = "#CCCCCC";
+    canvasContext.stroke();
+    canvasContext.strokeStyle = "#000000";
+}
+
 function clearCanvas() {
-    var canvasContext = canvas.getContext("2d");
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
     clearControlPoints();
     document.getElementById("posText").innerHTML = "Click on canvas to add control points";
