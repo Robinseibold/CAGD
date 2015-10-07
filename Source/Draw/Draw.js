@@ -64,4 +64,5 @@ function clearBezierCurve() {
 function clearCanvas() {
     var canvasContext = canvas.getContext("2d");
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    document.getElementById("posText").innerHTML = "Click on canvas to add control points";
 }
