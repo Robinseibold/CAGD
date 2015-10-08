@@ -141,6 +141,13 @@ function drawControlPolygon() {
     isShowingControlPolygon = true;
 }
 
+function drawConvexHull() {
+    var pointsOnConvexHull = convexHullByJarvisMarch(controlPoints);
+    for (pointIndex = 0; pointIndex < (pointsOnConvexHull.length - 1); pointIndex++) {
+        drawDashedLine(pointsOnConvexHull[pointIndex], pointsOnConvexHull[pointIndex + 1]);
+    }
+}
+
 function drawDashedLine(startPoint, endPoint) {
     var canvasContext = canvas.getContext("2d");
     canvasContext.beginPath();
