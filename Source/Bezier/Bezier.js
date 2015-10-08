@@ -9,11 +9,27 @@ function firstControlPoint() {
     return controlPoints[0];
 }
 
+function getDistanceToControlPoints(point) {
+    var distances = [];
+    
+    for (i = 0; i < controlPoints.length; i++) {
+        var xDiff = point.x - controlPoints[i].x;
+        var yDiff = point.y - controlPoints[i].y;
+        distances[i] = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    }
+    
+    return distances;
+}
+
+function changeControlPoint(index, newPosition) {
+    controlPoints[index] = newPosition;
+}
+
 function getControlPolygonPointPairs() {
     var controlPolygonPointPairs = [];
     
-    if(controlPoints.length > 1) {
-        for(i = 1; i < controlPoints.length; i++) {
+    if (controlPoints.length > 1) {
+        for (i = 1; i < controlPoints.length; i++) {
             var pair = {first: controlPoints[i - 1],
                         second: controlPoints[i]};
             controlPolygonPointPairs.push(pair);
