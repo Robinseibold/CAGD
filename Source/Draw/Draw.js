@@ -11,7 +11,13 @@ var isShowingConvexHull;
 function init() {
     canvas = document.getElementById("coordinateSystem");
     canvas.addEventListener("mousedown", mouseDown);
+    
     controlPointRadius = 3;
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvasContext.canvas.width  = window.innerWidth;
+    canvasContext.canvas.height = window.innerHeight;
+    
     isMovingControlPoint = false;
     isShowingCurve = false;
     isShowingControlPolygon = false;

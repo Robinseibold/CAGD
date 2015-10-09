@@ -1,10 +1,13 @@
 
-body {
-    background-color: #E6E6FA;
+html, body {
+    width:  100%;
+    height: 100%;
+    margin: 0px;
 }
 
 #canvasHolder {
-    width: 1000px;
+    width: 100%;
+    height: 100%;
     
     top:0;
     bottom: 0;
@@ -14,8 +17,7 @@ body {
 
 #coordinateSystem {
     background-color: white;
-    width: 1000px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
     
 }
-
