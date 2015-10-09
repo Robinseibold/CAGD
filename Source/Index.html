@@ -18,11 +18,11 @@
     <div id = "canvasHolder">
         <canvas id = "coordinateSystem" width = "1000" height= "600"> </canvas>
         <p id = "posText">Click on canvas to add control points<p/>
-        <button type = "button" onclick = "drawBezierCurve()">Draw curve</button>
-        <button type = "button" onclick = "drawControlPolygon()">Draw control polygon</button>
-        <button type = "button" onclick = "drawConvexHull()">Draw convex hull</button>
+        <button type = "button" id = "curve" onclick = "showOrHideCurveProperty(this)">Draw curve</button>
         <button type = "button" onclick = "drawDegreeElevatedBezierCurve()">Elevate curve</button>
         <button type = "button" onclick = "clearBezierCurve()">Delete curve</button>
+        <label><input type = 'checkbox' id = 'controlPolygon' onclick='showOrHideCurveProperty(this);'>Show control polygon</label>
+        <label><input type = 'checkbox' id = 'convexHull' onclick='showOrHideCurveProperty(this);'>Show convex hull</label>
     </div>
     
     </body>
