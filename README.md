@@ -18,3 +18,5 @@
   - [ ] add function for drawing B-spline
   - [ ] add function for elevating B-spline
   - [ ] add function for subdividing B-spline
+
+- [ ] change so the button sizes are not relative to the screen
