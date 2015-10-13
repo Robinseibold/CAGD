@@ -2,6 +2,8 @@
 
 # TODO
 
+- [ ] add support for multiple curves
+
 - [ ] add subdivision to Bézier scene
   - [ ] add button for sundividing Bézier curve
   - [ ] add input field for the point on which the curve should be subdivided
