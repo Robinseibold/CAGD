@@ -221,7 +221,6 @@ function drawDegreeElevatedBezierCurve() {
 
 function clearBezierCurve() {
     clearCanvas();
-    resetInfoText();
     clearControlPoints();
     isShowingCurve = false;
 }
@@ -229,8 +228,4 @@ function clearBezierCurve() {
 function clearCanvas() {
     var canvasContext = canvas.getContext("2d");
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function resetInfoText() {
-    document.getElementById("posText").innerHTML = "Click on canvas to add control points";
 }
