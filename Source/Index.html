@@ -3,7 +3,8 @@
 <html>
     
     <head>
-        <link rel = "stylesheet" type = "text/css" href = "Index.css">
+        <link rel = "stylesheet" type = "text/css" href = "Stylesheets/Index.css">
+        <link rel = "stylesheet" type = "text/css" href = "Stylesheets/Menus.css">
             
         <script type "text/javascript" src = "Draw/Draw.js"> </script>
         <script type "text/javascript" src = "Bezier/Bezier.js"> </script>
@@ -17,12 +18,32 @@
         
     <div id = "canvasHolder">
         <canvas id = "coordinateSystem"> </canvas>
-        <p id = "posText">Click on canvas to add control points<p/>
-        <button type = "button" id = "curve" onclick = "showOrHideCurveProperty(this)">Draw curve</button>
-        <button type = "button" onclick = "drawDegreeElevatedBezierCurve()">Elevate curve</button>
-        <button type = "button" onclick = "clearBezierCurve()">Delete curve</button>
-        <label><input type = 'checkbox' id = 'controlPolygon' onclick='showOrHideCurveProperty(this);'>Show control polygon</label>
-        <label><input type = 'checkbox' id = 'convexHull' onclick='showOrHideCurveProperty(this);'>Show convex hull</label>
+        
+        <div id = "menu">
+            </br>
+            <div class = "menuButton">
+                <img src = "../Resources/Images/ControlPointIcon.png" class = "menuButtonIcon">
+            </div>
+            <hr>
+            <div class = "menuButton">
+                <img src = "../Resources/Images/DrawIcon.png" class = "menuButtonIcon"
+                    id = "curve" onclick = "showOrHideCurveProperty(this)">
+            </div>
+            <div class = "menuButton">
+                <img src = "../Resources/Images/DegreeElevationIcon.png" class = "menuButtonIcon" onclick = "drawDegreeElevatedBezierCurve()">
+                    </div>
+            <div class = "menuButton">
+                <img src = "../Resources/Images/ControlPolygonIcon.png" class = "menuButtonIcon"
+                    id = "controlPolygon" onclick = "showOrHideCurveProperty(this)">
+            </div>
+            <div class = "menuButton">
+                <img src = "../Resources/Images/ConvexHullIcon.png" class = "menuButtonIcon"
+                    id = "convexHull" onclick = "showOrHideCurveProperty(this)">
+            </div>
+            <div class = "menuButton">
+                <img src = "../Resources/Images/DeleteIcon.png" class = "menuButtonIcon" onclick = "clearBezierCurve()">
+            </div>
+        </div>
     </div>
     
     </body>

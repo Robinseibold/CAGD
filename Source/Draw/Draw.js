@@ -79,8 +79,6 @@ function mouseUp(event) {
             x : event.clientX - boundingRect.left,
             y : event.clientY - boundingRect.top
         };
-        
-        document.getElementById("posText").innerHTML = "Control point added at (" + point.x + ", " + point.y + ")";
         addAndDrawControlPoint(point);
         updateScreen();
     }
@@ -146,24 +144,20 @@ function showOrHideCurveProperty(sender) {
             drawBezierCurve();
         }
     }else if (sender.id == 'controlPolygon') {
-        if (sender.checked) {
+        if (!isShowingControlPolygon) {
             drawControlPolygon();
         }else {
             isShowingControlPolygon = false;
             updateScreen();
         }
     }else if (sender.id == 'convexHull') {
-        if (sender.checked) {
+        if (!isShowingConvexHull) {
             drawConvexHull();
         }else {
             isShowingConvexHull = false;
             updateScreen();
         }
     }
-}
-
-function showOrHideConvexHull(checkBox) {
-    
 }
 
 function drawControlPolygon() {
