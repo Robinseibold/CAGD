@@ -7,10 +7,15 @@ var movingControlPointIndex;
 var isShowingCurve;
 var isShowingControlPolygon;
 var isShowingConvexHull;
+var BezierCurveColors;
 
 function init() {
     canvas = document.getElementById("coordinateSystem");
     canvas.addEventListener("mousedown", mouseDown);
+    
+    initBezier();
+    BezierCurveColors = [];
+    BezierCurveColors[activeCurveIndex] = {r: 0, g: 0, b: 0};
     
     controlPointRadius = 3;
     canvas.width  = window.innerWidth;
@@ -24,7 +29,13 @@ function init() {
     isShowingConvexHull = false;
 }
 
+function addNewBezierCurve() {
+    addBezierCurve();
+    BezierCurveColors[activeCurveIndex] = {r: 0, g: 0, b: 0};
+}
+
 function mouseDown() {
+    isDragging = false;
     var boundingRect = canvas.getBoundingClientRect();
     var mouseLocation = {
         x : event.clientX - boundingRect.left,
@@ -82,9 +93,7 @@ function mouseUp(event) {
         
         document.getElementById("posText").innerHTML = "Control point added at (" + point.x + ", " + point.y + ")";
         addAndDrawControlPoint(point);
-        updateScreen();
     }
-    isDragging = false;
     canvas.addEventListener("mousedown", mouseDown);
     window.removeEventListener("mousemove", mouseMove);
     window.removeEventListener("mouseup", mouseUp);
@@ -107,12 +116,15 @@ function updateScreen() {
 
 function addAndDrawControlPoint(point) {
     addControlPoint(point);
-    drawPoint(point);
+    updateScreen();
+    //drawPoint(point);
 }
 
 function drawControlPoints() {
-    for(i = 0; i < controlPoints.length; i++){
-        drawPoint(controlPoints[i]);
+    for(j = 0; j < bezierCurves.length; j++) {
+        for(i = 0; i < bezierCurves[j].length; i++){
+            drawPoint(bezierCurves[j][i]);
+        }
     }
 }
 
@@ -126,17 +138,26 @@ function drawPoint(point) {
 
 function drawBezierCurve() {
     var canvasContext = canvas.getContext("2d");
-    canvasContext.beginPath();
-    var startPosition = firstControlPoint();
-    canvasContext.moveTo(startPosition.x, startPosition.y);
     
     var tResolution = 1000;
-    for(t = 0; t <= tResolution; t++) {
-        var newPosition = calculateBezierCurveValueWithDeCasteljau(t / tResolution);
-        canvasContext.lineTo(newPosition.x, newPosition.y);
+    for(curveIndex = 0; curveIndex < bezierCurves.length; curveIndex++) {
+        canvasContext.beginPath();
+        var color = BezierCurveColors[curveIndex];
+        if (curveIndex == activeCurveIndex) {
+            var alpha = 1.0;
+        }else {
+            var alpha = 0.5;
+        }
+        canvasContext.strokeStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + alpha + ')';
+        var startPosition = firstControlPoint(curveIndex);
+        canvasContext.moveTo(startPosition.x, startPosition.y);
+        for(t = 0; t <= tResolution; t++) {
+            var newPosition = calculateBezierCurveValueWithDeCasteljau(t / tResolution, curveIndex);
+            canvasContext.lineTo(newPosition.x, newPosition.y);
+        }
+        canvasContext.stroke();
+        canvasContext.closePath();
     }
-    canvasContext.stroke();
-    canvasContext.closePath();
     isShowingCurve = true;
 }
 
@@ -144,6 +165,9 @@ function showOrHideCurveProperty(sender) {
     if (sender.id == 'curve') {
         if (!isShowingCurve) {
             drawBezierCurve();
+        }else {
+            isShowingCurve = false;
+            updateScreen();
         }
     }else if (sender.id == 'controlPolygon') {
         if (sender.checked) {
@@ -167,27 +191,28 @@ function showOrHideConvexHull(checkBox) {
 }
 
 function drawControlPolygon() {
-    var controlPolygonPointPairs = getControlPolygonPointPairs();
-    
-    for (pairNumber = 0; pairNumber < controlPolygonPointPairs.length; pairNumber++) {
-        var startPoint = controlPolygonPointPairs[pairNumber].first;
-        var endPoint = controlPolygonPointPairs[pairNumber].second;
-        drawDashedLine(startPoint, endPoint, "#CCCCCC");
+    for (curveIndex = 0; curveIndex < bezierCurves.length; curveIndex++) {
+        var controlPolygonPointPairs = getControlPolygonPointPairs(curveIndex);
+        for (pairNumber = 0; pairNumber < controlPolygonPointPairs.length; pairNumber++) {
+            var startPoint = controlPolygonPointPairs[pairNumber].first;
+            var endPoint = controlPolygonPointPairs[pairNumber].second;
+            drawDashedLine(startPoint, endPoint, "rgba(150, 150, 150, 1)");
+        }
     }
-    
     isShowingControlPolygon = true;
 }
 
 function drawConvexHull() {
-    var pointsOnConvexHull = convexHullByJarvisMarch(controlPoints);
-    for (pointIndex = 0; pointIndex < (pointsOnConvexHull.length - 1); pointIndex++) {
-        drawDashedLine(pointsOnConvexHull[pointIndex], pointsOnConvexHull[pointIndex + 1], "#000000");
+    for (curveIndex = 0; curveIndex < bezierCurves.length; curveIndex++) {
+        var pointsOnConvexHull = convexHullByJarvisMarch(bezierCurves[curveIndex]);
+        for (pointIndex = 0; pointIndex < (pointsOnConvexHull.length - 1); pointIndex++) {
+            drawDashedLine(pointsOnConvexHull[pointIndex], pointsOnConvexHull[pointIndex + 1], "rgba(0, 0, 0, 1)");
+        }
     }
-    
     isShowingConvexHull = true;
 }
 
-function drawDashedLine(startPoint, endPoint, color) {
+function drawDashedLine(startPoint, endPoint, style) {
     var canvasContext = canvas.getContext("2d");
     canvasContext.beginPath();
     
@@ -206,10 +231,10 @@ function drawDashedLine(startPoint, endPoint, color) {
         }
     }
     
-    canvasContext.strokeStyle = color;
+    canvasContext.strokeStyle = style;
     canvasContext.stroke();
     canvasContext.closePath();
-    canvasContext.strokeStyle = "#000000";
+    canvasContext.strokeStyle = "rgba(0, 0, 0, 1)";
 }
 
 function drawDegreeElevatedBezierCurve() {
@@ -218,8 +243,8 @@ function drawDegreeElevatedBezierCurve() {
     
     var canvasContext = canvas.getContext("2d");
     canvasContext.beginPath();
-    for (i = 0; i < controlPoints.length; i++) {
-        drawPoint(controlPoints[i]);
+    for (i = 0; i < bezierCurves[activeCurveIndex].length; i++) {
+        drawPoint(bezierCurves[activeCurveIndex][i]);
     }
     canvasContext.closePath();
     updateScreen();
@@ -228,8 +253,8 @@ function drawDegreeElevatedBezierCurve() {
 function clearBezierCurve() {
     clearCanvas();
     resetInfoText();
-    clearControlPoints();
-    isShowingCurve = false;
+    clearActiveBezierCurve();
+    updateScreen();
 }
 
 function clearCanvas() {
