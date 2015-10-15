@@ -139,6 +139,7 @@ function drawBezierCurve() {
 }
 
 function showOrHideCurveProperty(sender) {
+    highlightIcon(sender);
     if (sender.id == 'curve') {
         if (!isShowingCurve) {
             drawBezierCurve();
