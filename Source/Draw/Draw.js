@@ -20,6 +20,7 @@ function init() {
     controlPointRadius = 3;
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
+    var canvasContext = canvas.getContext("2d");
     canvasContext.canvas.width  = window.innerWidth;
     canvasContext.canvas.height = window.innerHeight;
     
@@ -27,6 +28,15 @@ function init() {
     isShowingCurve = false;
     isShowingControlPolygon = false;
     isShowingConvexHull = false;
+    
+    window.onresize = windowResized;
+}
+
+function windowResized() {
+    var canvasContext = canvas.getContext("2d");
+    canvasContext.canvas.width  = window.innerWidth;
+    canvasContext.canvas.height = window.innerHeight;
+    updateScreen();
 }
 
 function addNewBezierCurve() {
