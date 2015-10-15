@@ -90,8 +90,6 @@ function mouseUp(event) {
             x : event.clientX - boundingRect.left,
             y : event.clientY - boundingRect.top
         };
-        
-        document.getElementById("posText").innerHTML = "Control point added at (" + point.x + ", " + point.y + ")";
         addAndDrawControlPoint(point);
     }
     canvas.addEventListener("mousedown", mouseDown);
@@ -117,7 +115,6 @@ function updateScreen() {
 function addAndDrawControlPoint(point) {
     addControlPoint(point);
     updateScreen();
-    //drawPoint(point);
 }
 
 function drawControlPoints() {
@@ -162,6 +159,7 @@ function drawBezierCurve() {
 }
 
 function showOrHideCurveProperty(sender) {
+    highlightIcon(sender);
     if (sender.id == 'curve') {
         if (!isShowingCurve) {
             drawBezierCurve();
@@ -170,24 +168,20 @@ function showOrHideCurveProperty(sender) {
             updateScreen();
         }
     }else if (sender.id == 'controlPolygon') {
-        if (sender.checked) {
+        if (!isShowingControlPolygon) {
             drawControlPolygon();
         }else {
             isShowingControlPolygon = false;
             updateScreen();
         }
     }else if (sender.id == 'convexHull') {
-        if (sender.checked) {
+        if (!isShowingConvexHull) {
             drawConvexHull();
         }else {
             isShowingConvexHull = false;
             updateScreen();
         }
     }
-}
-
-function showOrHideConvexHull(checkBox) {
-    
 }
 
 function drawControlPolygon() {
@@ -252,7 +246,6 @@ function drawDegreeElevatedBezierCurve() {
 
 function clearBezierCurve() {
     clearCanvas();
-    resetInfoText();
     clearActiveBezierCurve();
     updateScreen();
 }
@@ -260,8 +253,4 @@ function clearBezierCurve() {
 function clearCanvas() {
     var canvasContext = canvas.getContext("2d");
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function resetInfoText() {
-    document.getElementById("posText").innerHTML = "Click on canvas to add control points";
 }

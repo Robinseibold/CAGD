@@ -1,0 +1,42 @@
+
+#menu {
+    position: absolute;
+    
+    background-color: #D8D8D8;
+    
+    width: 2.5%;
+    height: 100%;
+    
+    border-right-style: solid;
+    border-right-color: #A4A4A4;
+    border-width: 1px;
+}
+
+.menuButton {
+    border-radius: 100%;
+    margin: 0 auto;
+    margin-top: 3px;
+    
+    background-color: #D8D8D8;
+    
+    width: 80%;
+    height: 3.5%;
+}
+
+.menuButton:hover {
+    background-color: #E6E6E6;
+}
+
+.menuButtonSelected {
+    background-color: #BDBDBD;
+}
+
+.menuButtonIcon {
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    
+    width: 60%;
+    height: 60%;
+}
