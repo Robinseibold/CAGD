@@ -4,7 +4,11 @@ function convexHullByJarvisMarch(points) {
     
     if (numberOfPoints < 2) {
         return [];
+    } else if (numberOfPoints == 2) {
+        return points;
     }
+    
+    
     var pointOnHull = points[0];
     for (i = 1; i < points.length; i++) {
         if (points[i].x < pointOnHull.x) {
